@@ -7,30 +7,47 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#f8f4eb"
-    },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.promise"
+      "bundleIdentifier": "com.thepromiseplatform.promise"
     },
     "android": {
-      "package": "com.yourcompany.promise",
+      "package": "com.thepromiseplatform.promise",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#f8f4eb"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-router", "expo-image-picker"],
+    "plugins": [
+      "expo-router",
+      "expo-image-picker",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#f8f4eb"
+        }
+      ]
+    ],
     "extra": {
-      "router": { "origin": false }
-    }
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2a2ac366-3621-42d5-a264-2477699945e9"
+      }
+    },
+    "owner": "intentional-people-inc"
   }
 }
