@@ -16,7 +16,7 @@ const DATING_COMMITMENTS = [
 ];
 
 export default function Matches() {
-  const { profile } = useAuth();
+  const { profile, emailVerified } = useAuth();
   const router = useRouter();
   const [matches, setMatches] = useState<any[]>([]);
   const [existingCoupleId, setExistingCoupleId] = useState<string | null>(null);
@@ -62,6 +62,18 @@ export default function Matches() {
     } finally {
       setProposingTo(null);
     }
+  }
+
+  if (!emailVerified) {
+    return (
+      <Screen>
+        <Card>
+          <Eyebrow>Verify your email</Eyebrow>
+          <H1>Confirm your email to see your matches.</H1>
+          <Lead>Check your inbox for a confirmation link — this keeps Promise safe for everyone.</Lead>
+        </Card>
+      </Screen>
+    );
   }
 
   return (

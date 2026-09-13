@@ -48,9 +48,21 @@ export default function MarriagePromise() {
     }
     setSaving(true);
     try {
-      const { data: mySelf } = await supabase.from("self_promises").select("html").eq("user_id", profile.id).maybeSingle();
+      const { data: mySelf } = await supabase
+        .from("self_promises")
+        .select("html")
+        .eq("user_id", profile.id)
+        .order("version", { ascending: false })
+        .limit(1)
+        .maybeSingle();
       const partnerId = partnerIdOf(couple, profile.id);
-      const { data: partnerSelf } = await supabase.from("self_promises").select("html").eq("user_id", partnerId).maybeSingle();
+      const { data: partnerSelf } = await supabase
+        .from("self_promises")
+        .select("html")
+        .eq("user_id", partnerId)
+        .order("version", { ascending: false })
+        .limit(1)
+        .maybeSingle();
 
       const longTermGoals = [goal1, goal2, goal3].filter((g) => g.trim());
 

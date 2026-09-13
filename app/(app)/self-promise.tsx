@@ -23,6 +23,7 @@ export default function SelfPromise() {
   const [dateYourself, setDateYourself] = useState("");
   const [checked, setChecked] = useState<string[]>([]);
   const [narrative, setNarrative] = useState<string | null>(null);
+  const [version, setVersion] = useState(0);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -32,11 +33,14 @@ export default function SelfPromise() {
         .from("self_promises")
         .select("*")
         .eq("user_id", profile.id)
+        .order("version", { ascending: false })
+        .limit(1)
         .maybeSingle();
       if (data) {
         setNarrative(data.html);
         setDateYourself(data.date_yourself ?? "");
         setChecked(data.commitments ?? []);
+        setVersion(data.version ?? 1);
       }
     })();
   }, [profile?.id]);
@@ -61,16 +65,18 @@ I give myself permission to grow, to learn, to change with wisdom, and to seek l
 
     setNarrative(text);
     setSaving(true);
-    const { error } = await supabase.from("self_promises").upsert({
+    const nextVersion = version + 1;
+    const { error } = await supabase.from("self_promises").insert({
       user_id: profile!.id,
       html: text,
       commitments: checked,
       date_yourself: dateYourself.trim(),
       promise_date: new Date().toISOString().slice(0, 10),
-      updated_at: new Date().toISOString(),
+      version: nextVersion,
     });
     setSaving(false);
     if (error) Alert.alert("Couldn't save your Self Promise", error.message);
+    else setVersion(nextVersion);
   }
 
   return (

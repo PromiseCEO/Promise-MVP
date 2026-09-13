@@ -15,19 +15,31 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [identity, setIdentity] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function submit() {
-    if (!email || !password || !firstName || !identity) {
-      Alert.alert("Almost there", "Fill in every field, including how you identify.");
+    if (!email || !password || !firstName || !identity || !dateOfBirth) {
+      Alert.alert("Almost there", "Fill in every field, including your date of birth and how you identify.");
+      return;
+    }
+    const dob = new Date(dateOfBirth.trim());
+    if (isNaN(dob.getTime())) {
+      Alert.alert("Invalid date of birth", "Enter your date of birth as YYYY-MM-DD.");
+      return;
+    }
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+    if (dob > eighteenYearsAgo) {
+      Alert.alert("Must be 18 or older", "Promise is only available to adults 18 and up.");
       return;
     }
     setLoading(true);
     const { error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
-      options: { data: { first_name: firstName.trim(), identity } },
+      options: { data: { first_name: firstName.trim(), identity, date_of_birth: dateOfBirth.trim() } },
     });
     setLoading(false);
     if (error) {
@@ -52,6 +64,13 @@ export default function SignUp() {
           <H1>Create your free Promise account.</H1>
           <Lead>Women can message mutual connections for free.</Lead>
           <Field label="First name" value={firstName} onChangeText={setFirstName} placeholder="First name" />
+          <Field
+            label="Date of birth"
+            value={dateOfBirth}
+            onChangeText={setDateOfBirth}
+            placeholder="YYYY-MM-DD"
+            keyboardType="numbers-and-punctuation"
+          />
           <Field
             label="Email"
             value={email}

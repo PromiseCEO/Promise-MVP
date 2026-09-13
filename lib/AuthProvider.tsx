@@ -12,12 +12,14 @@ type Profile = {
   family_addon: boolean;
   subscription_status: string;
   intentional: Record<string, any>;
+  date_of_birth: string | null;
 };
 
 type AuthContextType = {
   session: Session | null;
   profile: Profile | null;
   loading: boolean;
+  emailVerified: boolean;
   refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
 };
@@ -26,6 +28,7 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   profile: null,
   loading: true,
+  emailVerified: false,
   refreshProfile: async () => {},
   signOut: async () => {},
 });
@@ -62,6 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         profile,
         loading,
+        emailVerified: !!session?.user?.email_confirmed_at,
         refreshProfile: async () => {
           if (session?.user) await loadProfile(session.user.id);
         },

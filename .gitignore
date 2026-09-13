@@ -2,3 +2,4 @@
 builds/
 .expo/
 node_modules/
+supabase/.temp/

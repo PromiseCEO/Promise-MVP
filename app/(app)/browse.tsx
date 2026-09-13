@@ -15,7 +15,7 @@ type OtherProfile = {
 };
 
 export default function Browse() {
-  const { profile } = useAuth();
+  const { profile, emailVerified } = useAuth();
   const router = useRouter();
   const [people, setPeople] = useState<OtherProfile[]>([]);
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
@@ -43,6 +43,18 @@ export default function Browse() {
       load();
     }, [load])
   );
+
+  if (!emailVerified) {
+    return (
+      <Screen>
+        <Card>
+          <Eyebrow>Verify your email</Eyebrow>
+          <H1>Confirm your email to start browsing.</H1>
+          <Lead>Check your inbox for a confirmation link — this keeps Promise safe for everyone.</Lead>
+        </Card>
+      </Screen>
+    );
+  }
 
   if (!profile?.journey || profile.journey !== "singles") {
     return (
