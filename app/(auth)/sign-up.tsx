@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { ScrollView, Text, Alert } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { Screen, Card, H1, Lead, Field, Button, Choice } from "../../lib/ui";
 import { Logo } from "../../lib/Logo";
-import { colors } from "../../lib/theme";
+import { colors, spacing } from "../../lib/theme";
 
 const IDENTITIES = ["Woman", "Man", "Nonbinary", "Prefer not to say"];
 
 export default function SignUp() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -41,7 +43,10 @@ export default function SignUp() {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom + spacing.lg }}
+        keyboardShouldPersistTaps="handled"
+      >
         <Card>
           <Logo size={56} showWordmark />
           <H1>Create your free Promise account.</H1>
