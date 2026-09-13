@@ -3,16 +3,24 @@ import { colors } from "./theme";
 
 const logo = require("../assets/icon.png");
 
-export function Logo({ size = 56, showWordmark = false }: { size?: number; showWordmark?: boolean }) {
+export function Logo({
+  size = 56,
+  showWordmark = false,
+  wordmarkColor = colors.ink,
+}: {
+  size?: number;
+  showWordmark?: boolean;
+  wordmarkColor?: string;
+}) {
   return (
     <View style={styles.row}>
       <Image source={logo} style={{ width: size, height: size, borderRadius: size / 2 }} resizeMode="contain" />
-      {showWordmark && <Text style={styles.wordmark}>Promise</Text>}
+      {showWordmark && <Text style={[styles.wordmark, { color: wordmarkColor }]}>Promise</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 },
-  wordmark: { fontSize: 20, fontWeight: "800", color: colors.ink },
+  wordmark: { fontSize: 20, fontWeight: "800" },
 });

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { ScrollView, Text, Alert } from "react-native";
+import { ScrollView, Text, View, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Link, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
-import { Screen, Card, H1, Lead, Field, Button, Choice } from "../../lib/ui";
+import { Screen, Card, Field, Button, Choice } from "../../lib/ui";
 import { Logo } from "../../lib/Logo";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, radius } from "../../lib/theme";
 
 const IDENTITIES = ["Woman", "Man", "Nonbinary", "Prefer not to say"];
 
@@ -59,10 +59,26 @@ export default function SignUp() {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: insets.bottom + spacing.lg }}
         keyboardShouldPersistTaps="handled"
       >
+        <View
+          style={{
+            backgroundColor: colors.forest,
+            paddingTop: insets.top + spacing.lg,
+            paddingHorizontal: spacing.lg,
+            paddingBottom: spacing.xl,
+            borderBottomLeftRadius: radius.xl,
+            borderBottomRightRadius: radius.xl,
+          }}
+        >
+          <Logo size={48} showWordmark wordmarkColor={colors.white} />
+          <Text style={{ color: colors.white, fontSize: 24, fontWeight: "800", lineHeight: 30, marginTop: spacing.sm }}>
+            Create your free Promise account.
+          </Text>
+          <Text style={{ color: "#e3eee9", fontSize: 15, lineHeight: 21, marginTop: spacing.sm }}>
+            Ladies can message mutual connections for free.
+          </Text>
+        </View>
+
         <Card>
-          <Logo size={56} showWordmark />
-          <H1>Create your free Promise account.</H1>
-          <Lead>Women can message mutual connections for free.</Lead>
           <Field label="First name" value={firstName} onChangeText={setFirstName} placeholder="First name" />
           <Field
             label="Date of birth"
@@ -83,7 +99,7 @@ export default function SignUp() {
             label="Password"
             value={password}
             onChangeText={setPassword}
-            placeholder="Create a password"
+            placeholder="Create password"
             secureTextEntry
           />
           <Text style={{ fontWeight: "800", marginTop: 10, marginBottom: 4, color: colors.ink }}>
@@ -92,7 +108,7 @@ export default function SignUp() {
           {IDENTITIES.map((opt) => (
             <Choice key={opt} label={opt} checked={identity === opt} onToggle={() => setIdentity(opt)} />
           ))}
-          <Button title="Create My Free Account →" onPress={submit} loading={loading} />
+          <Button title="Create My Free Promise Account →" onPress={submit} loading={loading} />
           <Link href="/(auth)/sign-in" style={{ textAlign: "center", marginTop: 16, color: colors.forest }}>
             Already have an account? Sign in
           </Link>
