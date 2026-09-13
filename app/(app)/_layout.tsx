@@ -37,6 +37,13 @@ export default function AppLayout() {
       <Tabs.Screen name="checkout-return" options={{ href: null }} />
       <Tabs.Screen name="family/add" options={{ href: null }} />
       <Tabs.Screen name="family/household" options={{ href: null }} />
+      <Tabs.Screen name="browse" options={{ href: null }} />
+      <Tabs.Screen name="matches" options={{ href: null }} />
+      <Tabs.Screen name="dating-promise" options={{ href: null }} />
+      <Tabs.Screen name="progress-checkin" options={{ href: null }} />
+      <Tabs.Screen name="engagement-promise" options={{ href: null }} />
+      <Tabs.Screen name="marriage-promise" options={{ href: null }} />
+      <Tabs.Screen name="settings" options={{ href: null }} />
     </Tabs>
   );
 }
